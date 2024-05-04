@@ -13,6 +13,7 @@ function Action(action) {
         setDescription(action.description);
         setSubActions(action?.expand?.actions ?? [])
     }
+    
     const updateSubActions = async () => {
         const response = await backend.collection('actions').getOne(`${action.id}`,{
             sort: '+created',
