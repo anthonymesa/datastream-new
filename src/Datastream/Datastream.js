@@ -2,12 +2,17 @@ import { Button, Card, Group, Menu, MenuDivider, MenuDropdown, MenuItem, MenuLab
 import ActionsList from '../ActionsList/ActionsList';
 import { useState } from 'react';
 import { useDisclosure } from '@mantine/hooks';
+import backend from '../utils/Backend';
 
 function Datastream(datastream) {
     const { id, title, description } = datastream
     const actions = datastream?.expand?.actions ?? []
     const [openedNewDatastream, { open: openNewDatastream, close: closeNewDatastream}] = useDisclosure(false);
     const [openedNewAction, { open: openNewAction, close: closeNewAction}] = useDisclosure(false);
+
+    const handleLogOut = () => {
+        backend.authStore.clear()
+    }
 
     return (
         <>
@@ -24,6 +29,8 @@ function Datastream(datastream) {
 
                         <MenuItem onClick={openNewDatastream}>Datastream</MenuItem>
                         <MenuItem onClick={openNewAction}>Action</MenuItem>
+                        <MenuDivider />
+                        <MenuItem onClick={handleLogOut}>Log Out</MenuItem>
                     </MenuDropdown>
                 </Menu>
             </Group>
