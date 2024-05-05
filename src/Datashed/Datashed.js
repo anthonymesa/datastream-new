@@ -19,7 +19,22 @@ function Datashed() {
 
     const subscribeToDatastreams = () => {
         backend.collection('datastreams').subscribe('*', function (e) {
-            setDatastreams(prev => [...prev.filter(each => each.id !== e.record.id), e.record])
+            switch(e.action) {
+                case 'create':
+                    setDatastreams(prev => [...prev.filter(each => each.id !== e.record.id), e.record])
+                    break;
+                case 'update':
+                    setDatastreams(prev => [...prev.map(each => {
+                        if(each.id == e.record.id) {
+                            return e.record
+                        } else {
+                            return each
+                        }
+                    })])
+                    break;
+                case 'delete':
+                    setDatastreams(prev => [...prev.filter(each => each.id !== e.record.id), e.record])
+            }
         }, {
             sort: '+created',
             expand: 'actions',
