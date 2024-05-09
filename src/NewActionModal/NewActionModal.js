@@ -7,7 +7,6 @@ function NewActionModal({ id, actions, close, isRoot }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [actionState, setActionState] = useState(actionStatesList[0]);
-  console.log(actions);
   const handleTitleChange = (e) => {
     setTitle(e.currentTarget.value);
   };
@@ -31,7 +30,6 @@ function NewActionModal({ id, actions, close, isRoot }) {
       .collection("actions")
       .create(data)
       .then((res) => {
-        console.log(`${JSON.stringify(actions)}, ${res.id}`);
         backend
           .collection(isRoot ? "datastreams" : "actions")
           .update(id, { actions: [...actions, res.id] });
