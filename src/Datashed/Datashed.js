@@ -84,7 +84,7 @@ function Datashed() {
 
   if (datastreams.length > 0) {
     return (
-      <Carousel withIndicators height={`100vh`}>
+      <Carousel withIndicators withControls={false} height={`100vh`}>
         {slides}
       </Carousel>
     );
