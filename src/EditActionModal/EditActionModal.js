@@ -10,18 +10,15 @@ import {
 import backend from "../utils/Backend";
 import { useEffect, useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
+import GroupedSelect from "./GroupedSelect";
 
 function EditActionModal({ action, close }) {
   const [parent, setParent] = useState("");
   const [selectData, setSelectData] = useState([]);
   const [selectValue, setSelectValue] = useState(null);
   const [visible, { toggle }] = useDisclosure(true);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [titlePlaceholder, setTitlePlaceholder] = useState(action.title);
-  const [descriptionPlaceholder, setDescriptionPlaceholder] = useState(
-    action.description
-  );
+  const [title, setTitle] = useState(action.title);
+  const [description, setDescription] = useState(action.description);
 
   const getDatastreams = () =>
     backend.collection("datastreams").getFullList({
@@ -104,7 +101,7 @@ function EditActionModal({ action, close }) {
       (each) => !descendantActionIds.includes(each.id)
     );
 
-    setSelectData([
+    const newData = [
       ...datastreams
         .filter((each) =>
           parent.collectionName == "datastreams" ? each.id != parent.id : true
@@ -116,7 +113,9 @@ function EditActionModal({ action, close }) {
         )
         .filter(isNotSelf)
         .map(makeSelectOption),
-    ]);
+    ];
+
+    setSelectData(newData);
   };
 
   useEffect(() => {
@@ -133,7 +132,7 @@ function EditActionModal({ action, close }) {
 
   const SelectParent = () => {
     return (
-      <Select
+      <GroupedSelect
         leftSection={selectionLoader}
         disabled={visible}
         data={selectData}
@@ -191,8 +190,6 @@ function EditActionModal({ action, close }) {
     await updateAction();
     if (selectValue !== null) await moveActionToNewParent();
     close();
-    setTitlePlaceholder(title);
-    setDescriptionPlaceholder(description);
   };
 
   return (
@@ -201,13 +198,11 @@ function EditActionModal({ action, close }) {
       <TextInput
         value={title}
         onChange={(e) => setTitle(e.currentTarget.value)}
-        placeholder={titlePlaceholder}
         label="Title"
       />
       <TextInput
         value={description}
         onChange={(e) => setDescription(e.currentTarget.value)}
-        placeholder={descriptionPlaceholder}
         label="Description"
       />
       <Button onClick={handleSubmit}>Submit</Button>
