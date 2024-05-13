@@ -96,9 +96,11 @@ function Action(action) {
       <AccordionItem key={action.id} value={action.id}>
         <AccordionControl>{title}</AccordionControl>
         <AccordionPanel>
-          <Card shadow="sm" padding="lg" radius="md" withBorder>
-            {description}
-          </Card>
+          {action?.description && (
+            <Card shadow="sm" padding="lg" radius="md" withBorder>
+              {action.description}
+            </Card>
+          )}
           <ActionsList actions={subActions} />
           <Center>
             <Group>
@@ -180,9 +182,11 @@ function Clone(action) {
     <AccordionItem key={action.id} value={action.id}>
       <AccordionControl>{sourceAction?.title ?? ""}</AccordionControl>
       <AccordionPanel>
-        <Card shadow="sm" padding="lg" radius="md" withBorder>
-          {sourceAction?.description ?? ""}
-        </Card>
+        {sourceAction?.description && (
+          <Card shadow="sm" padding="lg" radius="md" withBorder>
+            {sourceAction.description}
+          </Card>
+        )}
         <Center>
           <Group>
             <Button onClick={handleDeleteAction}>Delete</Button>
