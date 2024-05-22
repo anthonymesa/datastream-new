@@ -2,6 +2,7 @@
   "name": "datastream",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://anthonymesa.github.io/datastream-new",
   "dependencies": {
     "@mantine/carousel": "^7.9.0",
     "@mantine/core": "^7.9.0",
